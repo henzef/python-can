@@ -17,6 +17,8 @@ import logging
 
 if platform.system() == "Windows":
     import winreg
+elif 'CYGWIN' in platform.system():
+    import cygwinreg as winreg
 
 
 logger = logging.getLogger("can.pcan")
@@ -535,7 +537,7 @@ class PCANBasic:
 
     def __init__(self):
         # Loads the PCANBasic.dll and checks if driver is available
-        if platform.system() == "Windows":
+        if platform.system() == "Windows" or "CYGWIN" in platform.system():
             self.__m_dllBasic = windll.LoadLibrary("PCANBasic")
             aReg = winreg.ConnectRegistry(None, winreg.HKEY_LOCAL_MACHINE)
             try:
